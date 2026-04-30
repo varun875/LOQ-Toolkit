@@ -1,4 +1,4 @@
-## Welcome to Lenvo Legion Toolkit contributing guide!
+## Welcome to LOQ Toolkit contributing guide!
 
 ### Other language versions of this contributing guide:
 * [简体中文版开发者指南](CONTRIBUTING_zh-hans.md)

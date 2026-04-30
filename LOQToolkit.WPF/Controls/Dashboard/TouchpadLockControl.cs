@@ -1,0 +1,43 @@
+using System.Threading.Tasks;
+using LOQToolkit.Lib;
+using LOQToolkit.Lib.Features;
+using LOQToolkit.Lib.Listeners;
+using LOQToolkit.WPF.Resources;
+using Wpf.Ui.Common;
+using Wpf.Ui.Controls;
+
+namespace LOQToolkit.WPF.Controls.Dashboard;
+
+public class TouchpadLockControl : AbstractToggleFeatureCardControl<TouchpadLockState>
+{
+    private readonly DriverKeyListener _listener = IoCContainer.Resolve<DriverKeyListener>();
+
+    protected override TouchpadLockState OnState => TouchpadLockState.On;
+
+    protected override TouchpadLockState OffState => TouchpadLockState.Off;
+
+    public TouchpadLockControl()
+    {
+        Icon = SymbolRegular.Tablet24;
+        Title = Resource.TouchpadLockControl_Title;
+        Subtitle = Resource.TouchpadLockControl_Message;
+
+        _listener.Changed += Listener_Changed;
+    }
+
+    protected override async Task OnStateChange(ToggleSwitch toggle, IFeature<TouchpadLockState> feature)
+    {
+        await _listener.StopAsync();
+        await base.OnStateChange(toggle, feature);
+        await _listener.StartAsync();
+    }
+
+    private void Listener_Changed(object? sender, DriverKeyListener.ChangedEventArgs e) => Dispatcher.Invoke(async () =>
+    {
+        if (!IsLoaded || !IsVisible)
+            return;
+
+        if (e.DriverKey.HasFlag(DriverKey.FnF10))
+            await RefreshAsync();
+    });
+}

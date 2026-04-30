@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "LOQToolkit.WPF": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    },
+    "LOQToolkit.WPF (Trace)": {
+      "commandName": "Project",
+      "commandLineArgs": "--trace"
+    },
+    "LOQToolkit.WPF (Minimized)": {
+      "commandName": "Project",
+      "commandLineArgs": "--minimized"
+    },
+    "LOQToolkit.WPF (Trace, Minimized)": {
+      "commandName": "Project",
+      "commandLineArgs": "--trace --minimized"
+    }
+  }
+}
