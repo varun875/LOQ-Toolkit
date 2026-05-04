@@ -355,7 +355,10 @@ public partial class SpectrumKeyboardBacklightControl
             await StopAnimationAsync();
 
             if (_refreshStateCancellationTokenSource is not null)
+            {
                 await _refreshStateCancellationTokenSource.CancelAsync();
+                _refreshStateCancellationTokenSource.Dispose();
+            }
 
             _refreshStateCancellationTokenSource = new();
 
@@ -368,7 +371,10 @@ public partial class SpectrumKeyboardBacklightControl
         using (await _startStopAnimationLock.LockAsync())
         {
             if (_refreshStateCancellationTokenSource is not null)
+            {
                 await _refreshStateCancellationTokenSource.CancelAsync();
+                _refreshStateCancellationTokenSource.Dispose();
+            }
 
             _refreshStateCancellationTokenSource = new();
 

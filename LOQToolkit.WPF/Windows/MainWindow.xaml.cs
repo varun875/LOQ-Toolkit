@@ -211,12 +211,12 @@ public partial class MainWindow
 
     private void LoadDeviceInfo()
     {
-        Task.Run(Compatibility.GetMachineInformationAsync)
-            .ContinueWith(mi =>
-            {
-                _deviceInfoIndicator.Content = mi.Result.Model;
-                _deviceInfoIndicator.Visibility = Visibility.Visible;
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+        Task.Run(async () =>
+        {
+            var mi = await Compatibility.GetMachineInformationAsync();
+            _deviceInfoIndicator.Content = mi.Model;
+            _deviceInfoIndicator.Visibility = Visibility.Visible;
+        });
     }
 
     private void UpdateIndicators()
@@ -253,12 +253,11 @@ public partial class MainWindow
             return;
 
         _isCheckingForUpdates = true;
-        Task.Run(() => _updateChecker.CheckAsync(manualCheck))
-            .ContinueWith(async updatesAvailable =>
+        Task.Run(async () =>
             {
                 try
                 {
-                    var result = updatesAvailable.Result;
+                    var result = await _updateChecker.CheckAsync(manualCheck);
                     if (result is null)
                     {
                         _updateIndicator.Visibility = Visibility.Collapsed;
@@ -295,7 +294,7 @@ public partial class MainWindow
                 {
                     _isCheckingForUpdates = false;
                 }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            });
     }
 
     private void RestoreSize()

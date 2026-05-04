@@ -50,6 +50,7 @@ public partial class BatteryPage
     private void Refresh()
     {
         _cts?.Cancel();
+        _cts?.Dispose();
         _cts = new CancellationTokenSource();
 
         var token = _cts.Token;

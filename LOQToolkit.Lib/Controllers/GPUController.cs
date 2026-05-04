@@ -72,6 +72,7 @@ public class GPUController
         if (Log.Instance.IsTraceEnabled)
             Log.Instance.Trace($"Starting... [delay={delay}, interval={interval}]");
 
+        _refreshCancellationTokenSource?.Dispose();
         _refreshCancellationTokenSource = new CancellationTokenSource();
         var token = _refreshCancellationTokenSource.Token;
         _refreshTask = Task.Run(() => RefreshLoopAsync(delay, interval, token), token);

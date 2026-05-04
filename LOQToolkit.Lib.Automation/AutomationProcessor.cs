@@ -182,6 +182,7 @@ public class AutomationProcessor(
             using (await _ioLock.LockAsync().ConfigureAwait(false))
                 pipelines = _pipelines.ToList();
 
+            _cts?.Dispose();
             _cts = new CancellationTokenSource();
             var ct = _cts.Token;
 
